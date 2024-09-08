@@ -227,5 +227,6 @@ Note that we can change the response text based on usecases, depending upon suff
 
 - In Database implementation of saving users and invalidated tokens.
 - Authentication and Authorization part can be extracted out in a different microservice. Thus, can be exposed as gateway to our backend.
+- Latest implementation of jwt-go library can be utilized.  
 
 ![](img/mygiphy.gif)
