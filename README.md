@@ -30,7 +30,7 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 14:39:05 GMT
 Content-Length: 29
 
-{"message":"User not found"}
+{"message":"user not found"}
 </pre>
 
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 15:19:19 GMT
 Content-Length: 31
 
-{"message":"Invalid password"}
+{"message":"invalid password"}
 </pre>
 
 4) Trying login with non-existing user:
@@ -78,7 +78,7 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 15:30:15 GMT
 Content-Length: 29
 
-{"message":"User not found"}
+{"message":"user not found"}
 </pre>
 
 5) Trying login with existing user credentials:
@@ -123,26 +123,7 @@ Content-Length: 70
 {"message":"Welcome test@example.com! This is a protected resource."}
 </pre>
 
-7) Refreshing token with distorted token(Invalid Token, distorted at the end):
-
-
-```shell
-export DISTORTEDTOKEN=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzIwMzQwMDM0LCJleHAiOjE3MjAzNDM2MzR9.V7ubAvRZHFUM1mHptXw
-```
-```shell
-   curl --location --request GET 'localhost:8080/api/protected' -i -b "token=$DISTORTEDTOKEN"
- ```  
-Output:
-<pre>
-HTTP/1.1 400 Bad Request
-Content-Type: application/json
-Date: Sat, 07 Sep 2024 15:36:54 GMT
-Content-Length: 34
-
-{"message":"Error parsing token"}
-</pre>
-
-8) Refreshing token with valid token:
+7) Refreshing token with valid token:
 ```shell
 curl --location --request POST 'localhost:8080/api/auth/refresh' -b cookies.txt -c cookies.txt -i
 ```
@@ -161,7 +142,7 @@ Save this refreshed token in a variable(we will require it later):
 ```shell
 export REFRESHEDTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJleHAiOjE3MjU3MjUzMjN9.JFVbSKqHMbT5K_-65EhUxfuTIdvrMqeZOABU1TPClHM
 ```
-9) Try accessing protected resource with old token:
+8) Try accessing protected resource with old token:
 
 ```shell
 curl --location --request GET 'localhost:8080/api/protected' -i -b "token=$TOKEN"
@@ -173,10 +154,10 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 15:59:07 GMT
 Content-Length: 37
 
-{"message":"Token has been revoked"}
+{"message":"token has been revoked"}
 </pre>
 
-10) Try accessing protected resource with NEWTOKEN:
+9) Try accessing protected resource with NEWTOKEN:
 
 ```shell
 curl --location --request GET 'localhost:8080/api/protected' -i -b cookies.txt
@@ -191,7 +172,7 @@ Content-Length: 70
 {"message":"Welcome test@example.com! This is a protected resource."}
 </pre>
 
-11) Revoking NEWTOKEN:
+10) Revoking NEWTOKEN:
 ```shell    
 curl --location --request POST 'localhost:8080/api/auth/revoke' -b cookies.txt -c cookies.txt -i
 ```
@@ -206,7 +187,7 @@ Content-Length: 38
 {"message":"Logged out successfully"}
 </pre>
 
-12) Accessing protected resource with the revoked token:
+11) Accessing protected resource with the revoked token:
 ```shell
 curl --location --request GET 'localhost:8080/api/protected' -i -b "token=$REFRESHEDTOKEN"
 ```
@@ -217,10 +198,10 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 16:05:23 GMT
 Content-Length: 37
 
-{"message":"Token has been revoked"}
+{"message":"No token found"}
 </pre>
 
-13) Revoking token If token already revoked,
+12) Revoking token If token already revoked,
 ```shell
 curl --location --request POST 'localhost:8080/api/auth/revoke' -b cookies.txt -c cookies.txt -i
 ```
@@ -238,8 +219,13 @@ Content-Length: 29
 Note that we can change the response text based on usecases, depending upon sufficient information we need to reveal.
 -->
 
+### Resources:
+[Postman Collections](https://drive.google.com/file/d/1u0K-0yWBJomyPIO5E0otFgms84xtEtBI/view)
+[Demo Video](https://youtu.be/pUp7jIwZha4)
+
 ### Way Forward:
 
 - In Database implementation of saving users and invalidated tokens.
 - Authentication and Authorization part can be extracted out in a different microservice. Thus, can be exposed as gateway to our backend.
 
+![](img/mygiphy.gif)
