@@ -198,7 +198,7 @@ Content-Type: application/json
 Date: Sat, 07 Sep 2024 16:05:23 GMT
 Content-Length: 37
 
-{"message":"No token found"}
+{"message":"token has been revoked"}
 </pre>
 
 12) Revoking token If token already revoked,
